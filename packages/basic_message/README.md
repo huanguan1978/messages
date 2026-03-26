@@ -1,5 +1,5 @@
-[English](https://github.com/huanguan1978/messages/blob/master/packages/basic_message/doc/en) | [Chinese
-](https://github.com/huanguan1978/messages/blob/master/packages/basic_message/doc/zh)
+[English](https://github.com/huanguan1978/messages/blob/main/packages/basic_message/doc/en) | [Chinese
+](https://github.com/huanguan1978/messages/blob/main/packages/basic_message/doc/zh)
 
 
 # basic_message

@@ -1,5 +1,6 @@
 [English](https://github.com/huanguan1978/messages) | [Chinese
-](https://github.com/huanguan1978/messages/blob/master/README_zh.md)
+](https://github.com/huanguan1978/messages/blob/main/README_zh.md)
+
 
 # Messages (Multi-Language Architecture)
 
