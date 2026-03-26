@@ -1,0 +1,66 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2026-03-24T12:29:44.732613",
+  "common_global_body_gender_label": "{gender, select, male{He} female{She} other{They}}",
+  "@common_global_body_gender_label": {
+    "description": "gobal gender (male | female) to (He | She).",
+    "type": "text",
+    "placeholders": {
+      "gender": {
+        "example": "male"
+      }
+    }
+  },
+  "common_global_body_apple_label": "{count, plural, =1{has one apple} other{has {count} apples}}",
+  "@common_global_body_apple_label": {
+    "type": "text",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  "common_global_body_assembleWhoseApple_label": "{whose} {apple}",
+  "@common_global_body_assembleWhoseApple_label": {
+    "description": "assemble whose apple.",
+    "type": "text",
+    "placeholders": {
+      "whose": {
+        "example": "male"
+      },
+      "apple": {
+        "example": "5"
+      }
+    }
+  },
+  "common_global_action_confirm_exit_label": "Are you sure to exit?",
+  "@common_global_action_confirm_exit_label": {
+    "description": "cli exit tips.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "home_index_header_welcome_label": "Welcome, {username}!",
+  "@home_index_header_welcome_label": {
+    "type": "text",
+    "placeholders": {
+      "username": {
+        "example": "Guest"
+      }
+    }
+  },
+  "home_index_header_default_title": "Multi Language Home Page",
+  "@home_index_header_default_title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "home_index_counter_increment_label": "You have pushed the button this many times:",
+  "@home_index_counter_increment_label": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "home_index_counter_increment_action": "Increment",
+  "@home_index_counter_increment_action": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

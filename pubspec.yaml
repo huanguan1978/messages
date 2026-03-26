@@ -1,0 +1,11 @@
+name: messages
+publish_to: none 
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+workspace:
+  - packages/basic_message
+  - packages/share_message
+  - packages/cli_example
+  - packages/gui_example
