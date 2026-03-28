@@ -44,7 +44,7 @@ analyzer:
 */
 
 void main() {
-  final locales = ['en', 'zh_CN'];
+  final locales = ['en', 'zh'];
   final locale = locales.first;
   // Intl.defaultLocale = locale;
 
