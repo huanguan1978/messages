@@ -52,4 +52,4 @@ The sample packages in this repository are designed to demonstrate the robustnes
 
 **Powered by [basic_message](https://pub.dev/packages/basic_message)**
 
-*For engineering best practices, please prioritize reading the [L10N_DESIGN_GUIDE.md](packages/basic_message/doc/en/L10N_NAMING_GUIDE.md).*
+*For engineering best practices, please prioritize reading the [L10N_DESIGN_GUIDE.md](packages/basic_message/doc/en/L10N_DESIGN_GUIDE.md).*

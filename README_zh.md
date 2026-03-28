@@ -51,4 +51,4 @@
 
 **由 [basic_message](https://pub.dev/packages/basic_message) 核心方案驱动**
 
-*如有工程化需求，请优先阅读 [L10N_DESIGN_GUIDE.md](packages/basic_message/doc/en/L10N_NAMING_GUIDE.md)*
+*如有工程化需求，请优先阅读 [L10N_DESIGN_GUIDE.md](packages/basic_message/doc/en/L10N_DESIGN_GUIDE.md)*
