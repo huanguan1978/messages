@@ -550,9 +550,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 为了减少终端命令行手工操作，已把CLI示例中的两步重要操作用`ft:FileTools`工具进行了封装，封装如下：
 
-1. CLI端，业务信息生成ARB文件，`ft shell . --config=ft-messages-multilanguage.yaml --block=gen_arb_scripts`
-2. CLI端，ARB文件生生多语言库，`ft shell . --config=ft-messages-multilanguage.yaml --block=gen_from_arb_scripts`
-3. GUI端，基于`l10n.yaml`配置和`flutter gen-l10n`，生成映射表，`ft shell --config=ft-messages-multilanguage.yaml --block=flutter_gen_scripts`
+1. CLI端，业务信息生成ARB文件，`ft shell . --config=ft-messages-multilanguage.yaml --blocks=gen_arb_scripts`
+2. CLI端，ARB文件生生多语言库，`ft shell . --config=ft-messages-multilanguage.yaml --blocks=gen_from_arb_scripts`
+3. GUI端，基于`l10n.yaml`配置和`flutter gen-l10n`，生成映射表，`ft shell --config=ft-messages-multilanguage.yaml --blocks=flutter_gen_scripts`
 
 为什么要用`ft:FileTools`，请参阅下述：
 

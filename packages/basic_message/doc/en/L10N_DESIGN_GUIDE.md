@@ -521,9 +521,9 @@ class _MyHomePageState extends State<MyHomePage> {
 ### IX. Project Automation & Optimization
 
 To minimize manual CLI tasks, we recommend using `ft:FileTools`. 
-*   **Generate ARB**: `ft shell . --config=ft-messages-multilanguage.yaml --block=gen_arb_scripts`
-*   **Generate Dart from ARB**: `ft shell . --config=ft-messages-multilanguage.yaml --block=gen_from_arb_scripts`
-*   **Flutter L10n Build**: `ft shell --config=ft-messages-multilanguage.yaml --block=flutter_gen_scripts`
+*   **Generate ARB**: `ft shell . --config=ft-messages-multilanguage.yaml --blocks=gen_arb_scripts`
+*   **Generate Dart from ARB**: `ft shell . --config=ft-messages-multilanguage.yaml --blocks=gen_from_arb_scripts`
+*   **Flutter L10n Build**: `ft shell --config=ft-messages-multilanguage.yaml --blocks=flutter_gen_scripts`
 
 **Performance Optimization (Excluding `lib/generated`)**:
 1.  **VS Code**: Add `"dart.formatExclude": ["lib/generated/**"]` to your `settings.json`.

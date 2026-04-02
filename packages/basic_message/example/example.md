@@ -160,7 +160,7 @@ Standardized format for developer-translator collaboration.
 Scenario: Internationalized Application Supporting CLI and GUI
 
 ### Step 1: Define Messages
-Define your messages in a shared package, adhering to the [Naming Convention](https://github.com/huanguan1978/messages/blob/master/packages/basic_message/doc/en/I18N_NAMING_GUIDE.md).
+Define your messages in a shared package, adhering to the [Naming Convention](https://github.com/huanguan1978/messages/blob/main/packages/basic_message/doc/en/L10N_NAMING_GUIDE.md).
 
 ```dart
 // packages/share_message/lib/src/app_message.dart
