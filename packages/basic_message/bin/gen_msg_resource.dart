@@ -53,23 +53,15 @@ void main(List<String> arguments) {
     ..writeln("class L10nResource {");
 
   for (final m in visitor.messages) {
-    // print(m);
-    /*
-    final paramReg = RegExp(r'\{(\w+)\}');
-    final rawParams = paramReg
-        .allMatches(m.defaultValue)
-        .map((e) => e.group(1)!)
-        .toList();
-    */
-    final rawParams = m.defaultArgs.keys.toList();
-    final uniqueParams = rawParams.toSet().toList();
+    // Strictly use the keys from the 'param' Map defined in the enum constant.
+    // If the message string has more parameters, they are ignored per design.
+    final uniqueParams = m.defaultArgs.keys.toList();
 
     // Generate signature
     final paramDecl = uniqueParams.map((p) => "Object? $p").join(', ');
     final signature = paramDecl.isNotEmpty ? paramDecl : '';
     final sanitizeKey = m.key.replaceAll('.', '_');
 
-    // buffer.writeln("  static String ${m.name}($signature) {");
     buffer.writeln("  static String $sanitizeKey($signature) {");
 
     // Move null-safety check OUTSIDE the Intl.message call
@@ -84,10 +76,10 @@ void main(List<String> arguments) {
     // Use ClassName_MethodName to satisfy the intl tool naming requirement
     buffer.writeln("      name: '$sanitizeKey',");
 
-    if (rawParams.isNotEmpty) {
-      buffer.writeln("      args: [${rawParams.join(', ')}],");
+    if (uniqueParams.isNotEmpty) {
+      buffer.writeln("      args: [${uniqueParams.join(', ')}],");
       buffer.writeln(
-        "      examples: const {${rawParams.map((p) => "'$p': '${m.defaultArgs[p] ?? ''}'").join(', ')}},",
+        "      examples: const {${uniqueParams.map((p) => "'$p': '${m.defaultArgs[p] ?? ''}'").join(', ')}},",
       );
     }
 
@@ -125,26 +117,24 @@ class _EnumVisitor extends RecursiveAstVisitor<void> {
   void visitEnumConstantDeclaration(EnumConstantDeclaration node) {
     final args = node.arguments?.argumentList.arguments;
 
-    // print(args);
     // Check if we have at least 3 arguments (code, key, msg, desc)
     if (args != null && args.length > 3) {
       final enumName = node.name.lexeme;
-      final key = (args[1] as SimpleStringLiteral).value;
-      final msg = (args[2] as SimpleStringLiteral).value;
-      final desc = (args[3] as SimpleStringLiteral).value;
+      final key = (args[1] as StringLiteral).stringValue ?? '';
+      final msg = (args[2] as StringLiteral).stringValue ?? '';
+      final desc = (args[3] as StringLiteral).stringValue ?? '';
 
       var defaultArgs = <String, Object?>{};
 
-      // If a 4th argument exists and is a Map/Set literal, parse it.
-      if (args.length >= 4) {
-        final mapNode = args.last;
-        if (mapNode is NamedExpression) {
-          final key = mapNode.name.label.name;
-          final val = mapNode.expression;
-          if (key == 'param' && val is SetOrMapLiteral) {
+      // Look for the 'param' named argument among all arguments starting from index 4
+      for (final arg in args.skip(4)) {
+        if (arg is NamedExpression && arg.name.label.name == 'param') {
+          final val = arg.expression;
+          if (val is SetOrMapLiteral) {
             defaultArgs = _parseMap(val);
           }
-        } // endif NamedExpression
+          break; // Found it
+        }
       }
       messages.add(MessageDefinition(enumName, key, msg, defaultArgs, desc));
     }
