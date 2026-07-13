@@ -173,7 +173,7 @@ CLI apps consume the core library directly.
 ### VIII. Application-Level Implementation Example
 
 #### 1. Defining Business Message Enums (Workspace: `messages`, Package: `share_message`)
-*Ensure key naming follows the [Four-Level Naming Convention](L10N_NAMING_GUIDE.md).*
+*Ensure key naming follows the [Four-Level Naming Convention](L10N_NAMING_GUIDE2.md).*
 
 ```dart
 // packages/share_message/lib/src/share_message_base.dart

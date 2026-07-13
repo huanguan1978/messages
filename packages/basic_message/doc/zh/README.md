@@ -149,7 +149,7 @@ class MyApp extends StatelessWidget {
 ### 文档
 
 - [详细设计指南](L10N_DESIGN_GUIDE.md)：深入了解架构设计、工程化流程和完整的代码示例
-- [统一命名规范](L10N_NAMING_GUIDE.md)：统一的多语言 Key 命名规范，保证团队协作的一致性
+- [统一命名规范](L10N_NAMING_GUIDE2.md)：统一的多语言 Key 命名规范，保证团队协作的一致性
 
 ### 示例项目
 

@@ -465,7 +465,7 @@ cd messages
 ### 深入细节（参考文档）
 
 - [多语言构建方案](L10N_DESIGN_GUIDE.md)：详细的实现步骤、代码样板、工程化流程
-- [多语言命名规范](L10N_NAMING_GUIDE.md)：Key 的命名标准和最佳实践
+- [多语言命名规范](L10N_NAMING_GUIDE2.md)：Key 的命名标准和最佳实践
 
 ### 开发循环
 

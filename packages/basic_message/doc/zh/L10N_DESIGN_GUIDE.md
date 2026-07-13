@@ -184,7 +184,7 @@ CLI 直接作为“源头”消费核心库，无需处理 GUI 的静态限制�
 
 #### 1. 定义业务信息枚举（宿主项目[workspace:messages, package: share_message]）
 
-`key`命名请遵守[四级命名约定](L10N_NAMING_GUIDE.md).
+`key`命名请遵守[四级命名约定](L10N_NAMING_GUIDE2.md).
 ```dart
 // packages/share_message/lib/src/share_message_base.dart
 enum AppMessage implements MessageEnum {

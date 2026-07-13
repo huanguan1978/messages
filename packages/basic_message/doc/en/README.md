@@ -130,6 +130,6 @@ class MyApp extends StatelessWidget {
 ## Resources
 
 *   **[Design Guide](L10N_DESIGN_GUIDE.md)**: Deep dive into architecture, workflows, and best practices.
-*   **[Naming Convention](L10N_NAMING_GUIDE.md)**: Standardized four-level naming strategy for team consistency.
+*   **[Naming Convention](L10N_NAMING_GUIDE2.md)**: Standardized four-level naming strategy for team consistency.
 *   **[Example Repository](https://github.com/huanguan1978/messages)**: A complete, ready-to-run boilerplate including `share_message`, `cli_example`, and `gui_example`.
 
