@@ -129,6 +129,18 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+## v2 Update (v1.0.2)
+
+v2 introduces the **5-Level Semantic Coordinate Architecture** and a **Late-Binding** workflow, designed to enhance rigor and maintainability in localization management for large-scale projects. For detailed specifications, please refer to [L10N_NAMING_GUIDE2.md](doc/en/L10N_NAMING_GUIDE2.md).
+
+### Real-world Implementation References
+
+To help developers effectively adopt the v2 standard, we provide the following reference implementations, demonstrating how to efficiently integrate `basic_message` in complex business scenarios:
+
+*   **CLI Localization**: See [chapose](https://github.com/huanguan1978/chacrypt/tree/main/chapose), a tool focused on command-line file encryption and decryption.
+*   **GUI Localization**: See [chabox](https://github.com/huanguan1978/chacrypt/tree/main/chabox), a graphical workstation focused on personal privacy and secure file storage.
+
+Both modules are derived from the [chacrypt](https://github.com/huanguan1978/chacrypt) project—an ecosystem dedicated to offline file security and data sovereignty. Visit the [GitHub repository](https://github.com/huanguan1978/chacrypt) to learn more.
 
 ## Resources
 
