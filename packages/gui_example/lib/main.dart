@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:basic_message/basic_message.dart';
 import 'package:share_message/share_message.dart';
 
-import './gui_message_provider.dart';
 import './l10n/app_localizations.dart';
+import 'gui_message_initializer.dart';
 
 /// A simple Flutter application demonstrating the use of a custom message engine for localization.
 final ValueNotifier<Locale> localeNotifier = ValueNotifier(const Locale('en'));
@@ -46,9 +46,10 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           ),
           // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+
+          builder: (context, child) => GuiMessageInitializer(child: child!),
           home: Builder(
             builder: (context) {
-              MessageEngine.init(GuiMessageProvider(context));
               final title = MessageEngine.tr(
                 AppMessage.homeIndexHeaderDefaultTitle,
               );

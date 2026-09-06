@@ -105,29 +105,41 @@ void main() {
 ```
 
 ### 5. Flutter Integration
-**Step**: Add the shared message package dependency, run `flutter gen-l10n`, copy the `GuiMessageProvider` boilerplate and registry generator from the [Example Repository](https://github.com/huanguan1978/messages), and initialize `MessageEngine` within a `Builder` to gain `BuildContext` access.
+**Step**: Add the `basic_message` dependency to your Flutter project and run
+`flutter gen-l10n` to generate the localization classes. For the complete
+Flutter integration, refer to the [`gui_example`](https://github.com/huanguan1978/messages/tree/main/packages/gui_example)
+in the Example Repository.
+
+The example includes `GuiMessageProvider`, the generated message registry,
+locale switching, and the `GuiMessageInitializer` helper. You can copy and
+adapt these files to your Flutter project.
+
+Place `GuiMessageInitializer` in `MaterialApp.builder` to initialize
+`MessageEngine` globally with the current localization context:
 
 ```dart
-// Conceptual snippet: please refer to 'gui_example' for the full implementation
-import 'package:flutter/material.dart';
-import 'package:basic_message/basic_message.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    MessageEngine.init(GuiMessageProvider(context));
-    return MaterialApp(
-      home: Scaffold(
-        body: Text(MessageEngine.tr(AppMessage.welcomeLabel)),
-      ),
-    );
-  }
-}
+MaterialApp(
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
+  builder: (context, child) => GuiMessageInitializer(child: child!),
+  home: const HomePage(),
+);
 ```
+
+Then use shared messages anywhere below `MaterialApp`:
+
+```dart
+Text(
+  MessageEngine.tr(
+    AppMessage.welcomeLabel,
+    args: {'username': 'Alice'},
+  ),
+)
+```
+
+`basic_message` is a pure Dart package and does not include the
+Flutter-specific `GuiMessageInitializer`. Copy its implementation from
+`gui_example` and adjust the imports for your project.
 
 ## v2 Update (v1.0.2)
 

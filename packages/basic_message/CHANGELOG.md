@@ -1,3 +1,6 @@
+## 1.0.3
+  - Improved the README Flutter integration guide with `GuiMessageInitializer` and the `gui_example` reference.
+
 ## 1.0.2
 - **Documentation & Specification Upgrade (v2)**:
   - Introduced the **5-Level Semantic Coordinate Architecture** to standardize localization keys and improve maintainability.
