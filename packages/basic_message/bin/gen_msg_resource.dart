@@ -48,7 +48,8 @@ void main(List<String> arguments) {
 
   final buffer = StringBuffer()
     ..writeln("// Generated code. DO NOT EDIT.\n")
-    ..writeln("// ignore_for_file: non_constant_identifier_names\n")
+    ..writeln(
+        "// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages\n")
     ..writeln("import 'package:intl/intl.dart';\n")
     ..writeln("class L10nResource {");
 
