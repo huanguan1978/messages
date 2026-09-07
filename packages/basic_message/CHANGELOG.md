@@ -1,3 +1,9 @@
+## 1.0.4
+
+- Add an AI Agent Skill for `basic_message` L10N v2 workflows.
+- Add optional VS Code/Copilot instructions for message definition files.
+- Document Skill installation from the Dart Pub cache on macOS, Linux, and Windows.
+
 ## 1.0.3
   - Improved the README Flutter integration guide with `GuiMessageInitializer` and the `gui_example` reference.
 

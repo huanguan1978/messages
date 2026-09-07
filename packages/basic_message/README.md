@@ -145,6 +145,72 @@ Flutter-specific `GuiMessageInitializer`. Copy its implementation from
 
 v2 introduces the **5-Level Semantic Coordinate Architecture** and a **Late-Binding** workflow, designed to enhance rigor and maintainability in localization management for large-scale projects. For detailed specifications, please refer to [L10N_NAMING_GUIDE2.md](doc/en/L10N_NAMING_GUIDE2.md).
 
+### AI Agent Integration
+
+Starting with `basic_message` version `1.0.4`, the package includes an AI Agent
+Skill that enables agents to follow the current v2 naming convention when they
+edit message definitions or localization resources. Install version `1.0.4` or
+later to use this integration. Dependency packages cannot automatically install
+Agent Skills into a consumer workspace, so copy the template into each project
+that uses `basic_message`.
+
+Hosted Dart and Flutter packages are normally installed in the Dart Pub cache.
+Set `BASIC_MESSAGE_DIR` to the installed `basic_message` version before copying
+the templates.
+
+On macOS and Linux, the default cache location is
+`~/.pub-cache/hosted/pub.dev`:
+
+```bash
+export BASIC_MESSAGE_DIR="$HOME/.pub-cache/hosted/pub.dev/basic_message-1.0.4"
+```
+
+On Windows PowerShell, the default cache location is
+`%LOCALAPPDATA%\Pub\Cache\hosted\pub.dev`:
+
+```powershell
+$env:BASIC_MESSAGE_DIR = "$env:LOCALAPPDATA\Pub\Cache\hosted\pub.dev\basic_message-1.0.4"
+```
+
+Replace `1.0.4` with the installed version when using a newer release. If
+`PUB_CACHE` is set, use its `hosted/pub.dev` directory instead. For a path
+dependency, set `BASIC_MESSAGE_DIR` to that package's local directory.
+
+For VS Code and GitHub Copilot, run:
+
+```bash
+mkdir -p .github/skills/basic-message-l10n
+cp "$BASIC_MESSAGE_DIR/agents/skills/basic-message-l10n/SKILL.md" \
+  .github/skills/basic-message-l10n/SKILL.md
+```
+
+For agents that discover skills from `.agents/skills`, use:
+
+```bash
+mkdir -p .agents/skills/basic-message-l10n
+cp "$BASIC_MESSAGE_DIR/agents/skills/basic-message-l10n/SKILL.md" \
+  .agents/skills/basic-message-l10n/SKILL.md
+```
+
+The Skill requires the agent to locate and read this package's
+`doc/en/L10N_NAMING_GUIDE2.md` before changing a `MessageEnum`, ARB resource,
+message key, ICU message, or generated localization resource. The guide remains
+the single source of truth, so upgrades do not require copying its text into
+consumer repositories.
+
+For teams that want these rules applied automatically whenever a message
+definition file is edited, also copy the optional instruction template:
+
+```bash
+mkdir -p .github/instructions
+cp "$BASIC_MESSAGE_DIR/agents/instructions/basic-message-l10n.instructions.md" \
+  .github/instructions/basic-message-l10n.instructions.md
+```
+
+The template targets `lib/message/**/*.dart`. Adjust its `applyTo` pattern if
+your message definitions use a different location. Start a new Agent session
+after copying files so it can discover the customization.
+
 ### Real-world Implementation References
 
 To help developers effectively adopt the v2 standard, we provide the following reference implementations, demonstrating how to efficiently integrate `basic_message` in complex business scenarios:
