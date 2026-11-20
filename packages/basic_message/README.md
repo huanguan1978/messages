@@ -186,16 +186,50 @@ edit message definitions or localization resources. The published Skill is
 stored in the package-root `skills/` directory so it can be discovered by the
 official Dart `skills` tooling.
 
-From a project that depends on `basic_message`, run:
+#### Install for VS Code Copilot
+
+From the root of a Dart or Flutter project that depends on `basic_message`, run:
 
 ```bash
-dart run skills@ get
+dart pub get
+dart run skills@ get -p basic_message --agent copilot
 ```
 
-Select `basic-message-l10n` when prompted. The installed Skill includes its own
-authoritative reference and does not depend on files outside the Skill
-directory. It guides agents through message classification, ICU validation,
-batched generation, ARB locale checks, and Dart or Flutter analysis.
+`-p basic_message` limits discovery to Skills provided by this package. The
+command still displays an interactive selection list; select:
+
+```text
+basic-message-l10n
+```
+
+The Skill is installed in the project's `.github/skills/` directory, which is
+the project-level Skill directory used by GitHub Copilot in VS Code. Adding the
+dependency or running `dart pub get` alone does not install the Skill.
+
+After installation, reopen the project or start a new Copilot Chat session.
+The Skill can usually be found in the `/` menu, or Copilot can be asked to
+choose it for the current task. Discovering a Skill does not guarantee that it
+will automatically activate for every related request.
+
+#### Other AI coding assistants
+
+The `skills` CLI also supports Antigravity and other AI coding assistants. To
+install the same `basic_message` Skill for Antigravity, replace the Agent
+selection:
+
+```bash
+dart run skills@ get -p basic_message --agent antigravity
+```
+
+Each coding assistant may use a different project-level Skill directory. Check
+the Agent options supported by the current CLI version with:
+
+```bash
+dart run skills@ get --help
+```
+
+The supported list may change between CLI versions. See the
+[`skills` CLI documentation](https://pub.dev/packages/skills) for details.
 
 ### Real-world Implementation References
 

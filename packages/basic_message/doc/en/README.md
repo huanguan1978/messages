@@ -160,6 +160,57 @@ class MyApp extends StatelessWidget {
 ```
 
 
+## AI Coding Assistant Skill
+
+`basic_message` provides the `basic-message-l10n` Skill to help AI coding
+assistants follow the L10N v2 naming convention and correctly handle message
+classification, ICU parameters, ARB resources, and code generation workflows.
+
+### Install for VS Code Copilot
+
+From the root of a Dart or Flutter project that depends on `basic_message`, run:
+
+```bash
+dart pub get
+dart run skills@ get -p basic_message --agent copilot
+```
+
+`-p basic_message` limits discovery to Skills provided by this package. The
+command still displays an interactive selection list; select:
+
+```text
+basic-message-l10n
+```
+
+The Skill is installed in the project's `.github/skills/` directory, which is
+the project-level Skill directory used by GitHub Copilot in VS Code. Adding the
+dependency or running `dart pub get` alone does not install the Skill.
+
+After installation, reopen the project or start a new Copilot Chat session.
+The Skill can usually be found in the `/` menu, or Copilot can be asked to
+choose it for the current task. Discovering a Skill does not guarantee that it
+will automatically activate for every related request.
+
+### Other AI Coding Assistants
+
+The `skills` CLI also supports Antigravity and other AI coding assistants. To
+install the same `basic_message` Skill for Antigravity, replace the Agent
+selection:
+
+```bash
+dart run skills@ get -p basic_message --agent antigravity
+```
+
+Each coding assistant may use a different project-level Skill directory. Check
+the Agent options supported by the current CLI version with:
+
+```bash
+dart run skills@ get --help
+```
+
+The supported list may change between CLI versions. See the
+[`skills` CLI documentation](https://pub.dev/packages/skills) for details.
+
 ## Resources
 
 *   **[Design Guide](L10N_DESIGN_GUIDE.md)**: Deep dive into architecture, workflows, and best practices.

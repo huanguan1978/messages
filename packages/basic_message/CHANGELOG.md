@@ -1,8 +1,9 @@
-## Unreleased
+## 1.0.6
 
 - Standardize the AI Agent Skill layout under `skills/basic-message-l10n` and make its reference content self-contained.
 - Expand the L10N v2 guides and Skill with progressive adoption, ICU validation, batched generation, and ARB locale checks.
 - Document how conventions, generation scripts, and AI-assisted workflows reduce localization engineering overhead.
+- Add focused VS Code Copilot and Antigravity installation guidance for the published AI Skill.
 
 ## 1.0.5
 

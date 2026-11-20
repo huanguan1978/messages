@@ -176,6 +176,45 @@ class MyApp extends StatelessWidget {
 
 注意：以上为语义代码，不完整且不可执行。完整可运行的 `GuiMessageProvider` 样板代码，请参考示例仓库。
 
+## AI 编码助手 Skill
+
+`basic_message` 提供 `basic-message-l10n` Skill，用于帮助 AI 编码助手遵循 L10N v2 命名规范，正确处理消息分类、ICU 参数、ARB 资源和代码生成流程。
+
+### 为 VS Code Copilot 安装
+
+在已经添加 `basic_message` 依赖的 Dart 或 Flutter 项目根目录中运行：
+
+```bash
+dart pub get
+dart run skills@ get -p basic_message --agent copilot
+```
+
+`-p basic_message` 会将发现范围限制为 `basic_message` 提供的 Skill。命令仍会显示交互式选择列表，请在列表中选择：
+
+```text
+basic-message-l10n
+```
+
+Skill 将被安装到项目的 `.github/skills/` 目录中，这是 VS Code GitHub Copilot 使用的项目级 Skill 目录。仅添加依赖或运行 `dart pub get` 不会自动安装 Skill。
+
+安装完成后，重新打开项目或创建新的 Copilot Chat 会话。Skill 通常可以通过 `/` 菜单查看，也可以让 Copilot 根据当前请求尝试选择。能够发现 Skill 并不代表每次相关请求都会自动触发它。
+
+### 其他 AI 编码助手
+
+`skills` CLI 也支持 Antigravity 等其他 AI 编码助手。对于同一个 `basic_message` Skill，只需将 Agent 参数替换为：
+
+```bash
+dart run skills@ get -p basic_message --agent antigravity
+```
+
+不同编码助手会使用不同的项目级 Skill 目录。可通过以下命令查看当前 `skills` CLI 支持的 Agent：
+
+```bash
+dart run skills@ get --help
+```
+
+支持列表可能随 CLI 版本更新，详细说明请参阅 [skills CLI 文档](https://pub.dev/packages/skills)。
+
 ## 更多资源
 
 ### 文档
