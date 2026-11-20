@@ -101,6 +101,19 @@ void main() {
 }
 ```
 
+Translation arguments may be Dart `Enum` values. `MessageEngine` automatically
+uses the enum member name, so an ICU `select` branch can be called without
+manually converting the value with `.name`:
+
+```dart
+enum MenuEntity { home, settings }
+
+MessageEngine.tr(
+  AppMessage.navigationLabel,
+  args: {'label': MenuEntity.home},
+);
+```
+
 ### 5. Flutter Integration
 **Step**: Add the shared message package dependency, run `flutter gen-l10n`, copy the `GuiMessageProvider` boilerplate and registry generator from the [Example Repository](https://github.com/huanguan1978/messages), and initialize `MessageEngine` within a `Builder` to gain `BuildContext` access.
 
@@ -132,4 +145,3 @@ class MyApp extends StatelessWidget {
 *   **[Design Guide](L10N_DESIGN_GUIDE.md)**: Deep dive into architecture, workflows, and best practices.
 *   **[Naming Convention](L10N_NAMING_GUIDE2.md)**: Standardized four-level naming strategy for team consistency.
 *   **[Example Repository](https://github.com/huanguan1978/messages)**: A complete, ready-to-run boilerplate including `share_message`, `cli_example`, and `gui_example`.
-

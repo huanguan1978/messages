@@ -1,5 +1,7 @@
 part of '../share_message.dart';
 
+enum Gender { male, female }
+
 enum AppMessage implements MessageEnum {
   commonGlobalBodyGenderLabel(
     901,

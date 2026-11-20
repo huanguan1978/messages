@@ -38,6 +38,9 @@ must not override the guide.
   and translation context.
 - Keep ICU message syntax valid. Every declared parameter needs a representative
   default value in `param`.
+- For an ICU `select` parameter backed by a Dart enum, callers may pass the
+  enum value directly. `MessageEngine` and generated localization registries
+  resolve its member name; do not require manual `.name` conversion.
 
 ## Workflow
 

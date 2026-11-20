@@ -107,11 +107,18 @@ class MessageEngine {
     _provider = provider;
   }
   
-  static String tr<T extends MessageEnum>(T message, {Map<String, Object>? args}) {
+  static String tr<T extends MessageEnum>(
+    T message, {
+    Map<String, Object>? args,
+  }) {
+    final normalizedArgs = args?.map((key, value) {
+      return MapEntry(key, value is Enum ? value.name : value);
+    });
+
     if (_provider == null) {
-      return _renderFallback(message.msg, args); 
+      return _renderFallback(message.msg, normalizedArgs);
     }
-    return _provider!.resolve(message, args: args);
+    return _provider!.resolve(message, args: normalizedArgs);
   }
 }
 ```
@@ -149,6 +156,21 @@ Standardized format for developer-translator collaboration.
   "common_global_gender_label": "{gender, select, male{他} female{她} other{他们}}"
 }
 ```
+
+For ICU `select` parameters, callers can pass a Dart `Enum` directly. The engine
+uses the enum member name as the select key:
+
+```dart
+enum MenuEntity { home, settings }
+
+MessageEngine.tr(
+  AppMessage.navigationLabel,
+  args: {'label': MenuEntity.home},
+);
+```
+
+Here `MenuEntity.home` is normalized to `home` before reaching the provider or
+the fallback renderer; callers do not need to pass `MenuEntity.home.name`.
 
 ---
 

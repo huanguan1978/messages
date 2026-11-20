@@ -2,20 +2,17 @@
 import './app_localizations.dart';
 
 String resolveL10n(
-  AppLocalizations l10n,
-  String key,
-  Map<String, dynamic>? args,
-) {
+    AppLocalizations l10n, String key, Map<String, dynamic>? args) {
   switch (key) {
     case 'common_global_body_gender_label':
-      return l10n.common_global_body_gender_label((args?['gender'] as String));
+      return l10n.common_global_body_gender_label(args?['gender'] is Enum
+          ? (args?['gender'] as Enum).name
+          : (args?['gender']?.toString() ?? ''));
     case 'common_global_body_apple_label':
       return l10n.common_global_body_apple_label((args?['count'] as num));
     case 'common_global_body_assembleWhoseApple_label':
       return l10n.common_global_body_assembleWhoseApple_label(
-        args?['whose'] ?? '',
-        args?['apple'] ?? '',
-      );
+          args?['whose'] ?? '', args?['apple'] ?? '');
     case 'common_global_action_confirm_exit_label':
       return l10n.common_global_action_confirm_exit_label;
     case 'home_index_header_welcome_label':

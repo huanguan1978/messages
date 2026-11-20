@@ -57,7 +57,7 @@ void main(List<String> args) {
   buffer.writeln("  switch (key) {");
 
   for (var method in visitor.methods) {
-    // 直接使用方法名，因为它就是我们要的 key
+    // Use method name as translation key.
     buffer.write("    case '${method.name}': ");
 
     if (method.isGetter) {
@@ -67,6 +67,9 @@ void main(List<String> args) {
         final value = "args?['${p.name}']";
         if (p.type == 'Object') {
           return "$value ?? ''";
+        } else if (p.type == 'String') {
+          // Safely resolve Enum, String, or other values to String.
+          return "$value is Enum ? ($value as Enum).name : ($value?.toString() ?? '')";
         } else {
           return "($value as ${p.type})";
         }

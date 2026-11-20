@@ -104,6 +104,19 @@ void main() {
 }
 ```
 
+Translation arguments may be Dart `Enum` values. `MessageEngine` automatically
+uses the enum member name, so an ICU `select` branch can be called without
+manually converting the value with `.name`:
+
+```dart
+enum MenuEntity { home, settings }
+
+MessageEngine.tr(
+  AppMessage.navigationLabel,
+  args: {'label': MenuEntity.home},
+);
+```
+
 ### 5. Flutter Integration
 **Step**: Add the `basic_message` dependency to your Flutter project and run
 `flutter gen-l10n` to generate the localization classes. For the complete

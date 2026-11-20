@@ -62,7 +62,7 @@ void toggleLocale(String locale) {
       ),
     );
 
-    // toggleLangAssembleWhoseApple();
+    toggleLangAssembleWhoseApple();
   });
 }
 
@@ -83,7 +83,7 @@ void toggleLangAssembleWhoseApple() {
 
   whose = MessageEngine.tr(
     AppMessage.commonGlobalBodyGenderLabel,
-    args: {'gender': 'female'},
+    args: {'gender': Gender.female},
   );
   apple = MessageEngine.tr(
     AppMessage.commonGlobalBodyAppleLabel,

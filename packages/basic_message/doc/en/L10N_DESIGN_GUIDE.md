@@ -92,34 +92,54 @@ class MessageEngine {
     T message, {
     Map<String, Object>? args,
   }) {
-    // Merge values from 'args' into 'param', discarding any keys not present in the base 'param' map.
-    if (args != null && args.isNotEmpty && message.param.isNotEmpty) {
-      final param = Map<String, Object>.from(message.param); // default param
+    // Normalize Enum values to their names.
+    Map<String, Object>? normalizedArgs;
+    if (args != null && args.isNotEmpty) {
+      normalizedArgs = args.map((key, value) {
+        if (value is Enum) {
+          return MapEntry(key, value.name);
+        }
+        return MapEntry(key, value);
+      });
+    }
+
+    // Merge normalized args into default param map.
+    if (normalizedArgs != null &&
+        normalizedArgs.isNotEmpty &&
+        message.param.isNotEmpty) {
+      final param = Map<String, Object>.from(message.param);
 
       param.addEntries(
-        args.entries.where((entry) => param.containsKey(entry.key)),
+        normalizedArgs.entries.where((entry) => param.containsKey(entry.key)),
       );
 
-      args = param;
+      normalizedArgs = param;
     }
 
     if (_provider == null) {
-      return _renderFallback(message.msg, args);
+      return _renderFallback(message.msg, normalizedArgs);
     }
-    return _provider!.resolve(message, args: args);
+    return _provider!.resolve(message, args: normalizedArgs);
   }
 
   static String _renderFallback(String msg, Map<String, Object>? args) {
     if (args == null || args.isEmpty) return msg;
     var result = msg;
     args.forEach((key, value) {
-      result = result.replaceAll('{$key}', value.toString());
+      final display = value is Enum ? value.name : value.toString();
+      result = result.replaceAll('{$key}', display);
     });
     return result;
   }
 }
 
 ```
+
+This normalization lets providers and fallback rendering consume the same
+argument format. A Dart enum passed to an ICU `select` placeholder is resolved
+by its member name (for example, `MenuEntity.home` becomes `home`). The generated
+Flutter localization registry performs an equivalent conversion for `String`
+parameters.
 
 ---
 

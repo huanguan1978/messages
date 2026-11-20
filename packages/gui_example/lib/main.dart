@@ -150,6 +150,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              MessageEngine.tr(
+                AppMessage.commonGlobalBodyGenderLabel,
+                args: {'gender': Gender.female},
+              ),
+            ),
             Text(MessageEngine.tr(AppMessage.homeIndexCounterIncrementLabel)),
             Text(
               '$_counter',

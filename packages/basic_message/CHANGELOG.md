@@ -1,3 +1,9 @@
+## 1.0.5
+
+- Support Enum values as translation arguments, including ICU `select` messages and generated localization registries.
+- Document Enum-based ICU `select` arguments across English and Chinese guides.
+- Update CLI and Flutter examples to demonstrate Enum translation arguments.
+
 ## 1.0.4
 
 - Add an AI Agent Skill for `basic_message` L10N v2 workflows.

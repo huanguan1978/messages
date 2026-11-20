@@ -118,11 +118,18 @@ class MessageEngine {
   }
   
   // 统一的翻译调用接口
-  static String tr<T extends MessageEnum>(T message, {Map<String, Object>? args}) {
+  static String tr<T extends MessageEnum>(
+    T message, {
+    Map<String, Object>? args,
+  }) {
+    final normalizedArgs = args?.map((key, value) {
+      return MapEntry(key, value is Enum ? value.name : value);
+    });
+
     if (_provider == null) {
-      return _renderFallback(message.msg, args);  // Provider 未初始化，使用兜底文案
+      return _renderFallback(message.msg, normalizedArgs); // 使用兜底文案
     }
-    return _provider!.resolve(message, args: args);
+    return _provider!.resolve(message, args: normalizedArgs);
   }
 }
 ```
@@ -163,6 +170,21 @@ print(MessageEngine.tr(AppMessage.welcomeLabel, args: {'username': 'Alice'}));
   "common_global_gender_label": "{gender, select, male{他} female{她} other{他们}}"
 }
 ```
+
+对于 ICU `select` 参数，调用方可以直接传入 Dart `Enum`。引擎会使用枚举成员名
+作为分支标识：
+
+```dart
+enum MenuEntity { home, settings }
+
+MessageEngine.tr(
+  AppMessage.navigationLabel,
+  args: {'label': MenuEntity.home},
+);
+```
+
+此处 `MenuEntity.home` 会在进入 Provider 或兜底渲染前规范化为 `home`，调用方
+无需显式传入 `MenuEntity.home.name`。
 
 **为什么 ARB 很关键：**
 - **标准化格式**：Google 标准，与 Flutter/Dart 工具链原生支持

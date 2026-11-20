@@ -117,6 +117,18 @@ void main() {
 
 注意：以上为语义代码，不完整且不可执行。完整可运行的 `CliMessageProvider` 样板代码，请参考示例仓库。
 
+翻译参数也可以直接传入 Dart `Enum` 值。`MessageEngine` 会自动使用枚举成员名，
+因此 ICU `select` 分支无需调用方手动转换 `.name`：
+
+```dart
+enum MenuEntity { home, settings }
+
+MessageEngine.tr(
+  AppMessage.navigationLabel,
+  args: {'label': MenuEntity.home},
+);
+```
+
 ### 5. Flutter 端集成
 
 **在你的 Flutter 项目中：** 添加对共享包的依赖，运行 `flutter gen-l10n` 生成本地化类，然后实现 `GuiMessageProvider`（复制示例仓库的样板代码），最后初始化引擎：
@@ -160,4 +172,3 @@ class MyApp extends StatelessWidget {
 - `share_message`：共享的消息定义包
 - `cli_example`：CLI 应用完整示例
 - `gui_example`：Flutter 应用完整示例
-
