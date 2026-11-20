@@ -1,3 +1,9 @@
+## Unreleased
+
+- Standardize the AI Agent Skill layout under `skills/basic-message-l10n` and make its reference content self-contained.
+- Expand the L10N v2 guides and Skill with progressive adoption, ICU validation, batched generation, and ARB locale checks.
+- Document how conventions, generation scripts, and AI-assisted workflows reduce localization engineering overhead.
+
 ## 1.0.5
 
 - Support Enum values as translation arguments, including ICU `select` messages and generated localization registries.

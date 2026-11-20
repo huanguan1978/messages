@@ -19,6 +19,26 @@ Building a full-stack Dart/Flutter project often leads to fragmented localizatio
 *   **Zero Runtime Overhead**: Utilize code generation to bind keys, maintaining high performance in both GUI and CLI environments.
 *   **Sophisticated Rendering**: Built-in support for dynamic parameters, plurals, and gender-based localization, abstracting the complexity of the `intl` package.
 
+### What Makes Localization Tedious?
+
+The difficult part of localization is often not translating a single string, but managing the complete message engineering workflow:
+
+*   Designing stable, meaningful keys for every message.
+*   Distinguishing static text, validation or guard messages, and execution results.
+*   Keeping message code, parameters, ICU expressions, and ARB resources synchronized.
+*   Supporting both CLI and Flutter applications consistently.
+*   Avoiding manual edits to generated files, missing locale files, and unnecessary repeated generation.
+
+These tasks recur as a project grows. Developers must handle file paths, naming rules, generation order, and platform differences in addition to the text itself. This repeated coordination work is the complex and error-prone part of localization.
+
+`basic_message` reduces that cost in three ways:
+
+1.  **Conventions reduce decision-making costs**. Shared message lifecycles, five-level semantic coordinates, code ranges, and parameter rules give developers and teams a consistent understanding of each message.
+2.  **Scripts remove repetitive work**. Generation tools handle the conversion between `MessageEnum`, ARB resources, and localized code, avoiding manual mapping while keeping changes verifiable and reproducible.
+3.  **An AI Skill assists the workflow**. When developers use an AI coding assistant, the Skill can help identify localization candidates, classify `st`/`cd`/`rs` messages, validate ICU parameters, choose the correct generation commands, and ask whether to generate after a batch of edits is complete.
+
+`basic_message` does not replace developers or translators. Instead, it gives repetitive, mechanical, and easily overlooked engineering work to established conventions and tools. This lets users focus on what matters: the business meaning and timing of a message, its parameters, and whether its expression is accurate and natural in each language.
+
 ## Quick Start
 
 ### Core Workflow
@@ -162,67 +182,20 @@ v2 introduces the **5-Level Semantic Coordinate Architecture** and a **Late-Bind
 
 Starting with `basic_message` version `1.0.4`, the package includes an AI Agent
 Skill that enables agents to follow the current v2 naming convention when they
-edit message definitions or localization resources. Install version `1.0.4` or
-later to use this integration. Dependency packages cannot automatically install
-Agent Skills into a consumer workspace, so copy the template into each project
-that uses `basic_message`.
+edit message definitions or localization resources. The published Skill is
+stored in the package-root `skills/` directory so it can be discovered by the
+official Dart `skills` tooling.
 
-Hosted Dart and Flutter packages are normally installed in the Dart Pub cache.
-Set `BASIC_MESSAGE_DIR` to the installed `basic_message` version before copying
-the templates.
-
-On macOS and Linux, the default cache location is
-`~/.pub-cache/hosted/pub.dev`:
+From a project that depends on `basic_message`, run:
 
 ```bash
-export BASIC_MESSAGE_DIR="$HOME/.pub-cache/hosted/pub.dev/basic_message-1.0.4"
+dart run skills@ get
 ```
 
-On Windows PowerShell, the default cache location is
-`%LOCALAPPDATA%\Pub\Cache\hosted\pub.dev`:
-
-```powershell
-$env:BASIC_MESSAGE_DIR = "$env:LOCALAPPDATA\Pub\Cache\hosted\pub.dev\basic_message-1.0.4"
-```
-
-Replace `1.0.4` with the installed version when using a newer release. If
-`PUB_CACHE` is set, use its `hosted/pub.dev` directory instead. For a path
-dependency, set `BASIC_MESSAGE_DIR` to that package's local directory.
-
-For VS Code and GitHub Copilot, run:
-
-```bash
-mkdir -p .github/skills/basic-message-l10n
-cp "$BASIC_MESSAGE_DIR/agents/skills/basic-message-l10n/SKILL.md" \
-  .github/skills/basic-message-l10n/SKILL.md
-```
-
-For agents that discover skills from `.agents/skills`, use:
-
-```bash
-mkdir -p .agents/skills/basic-message-l10n
-cp "$BASIC_MESSAGE_DIR/agents/skills/basic-message-l10n/SKILL.md" \
-  .agents/skills/basic-message-l10n/SKILL.md
-```
-
-The Skill requires the agent to locate and read this package's
-`doc/en/L10N_NAMING_GUIDE2.md` before changing a `MessageEnum`, ARB resource,
-message key, ICU message, or generated localization resource. The guide remains
-the single source of truth, so upgrades do not require copying its text into
-consumer repositories.
-
-For teams that want these rules applied automatically whenever a message
-definition file is edited, also copy the optional instruction template:
-
-```bash
-mkdir -p .github/instructions
-cp "$BASIC_MESSAGE_DIR/agents/instructions/basic-message-l10n.instructions.md" \
-  .github/instructions/basic-message-l10n.instructions.md
-```
-
-The template targets `lib/message/**/*.dart`. Adjust its `applyTo` pattern if
-your message definitions use a different location. Start a new Agent session
-after copying files so it can discover the customization.
+Select `basic-message-l10n` when prompted. The installed Skill includes its own
+authoritative reference and does not depend on files outside the Skill
+directory. It guides agents through message classification, ICU validation,
+batched generation, ARB locale checks, and Dart or Flutter analysis.
 
 ### Real-world Implementation References
 

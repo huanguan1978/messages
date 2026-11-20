@@ -16,6 +16,26 @@ Building a full-stack Dart/Flutter project often leads to fragmented localizatio
 *   **Zero Runtime Overhead**: Utilize code generation to bind keys, maintaining high performance in both GUI and CLI environments.
 *   **Sophisticated Rendering**: Built-in support for dynamic parameters, plurals, and gender-based localization, abstracting the complexity of the `intl` package.
 
+### What Makes Localization Tedious?
+
+The difficult part of localization is often not translating a single string, but managing the complete message engineering workflow:
+
+*   Designing stable, meaningful keys for every message.
+*   Distinguishing static text, validation or guard messages, and execution results.
+*   Keeping message code, parameters, ICU expressions, and ARB resources synchronized.
+*   Supporting both CLI and Flutter applications consistently.
+*   Avoiding manual edits to generated files, missing locale files, and unnecessary repeated generation.
+
+These tasks recur as a project grows. Developers must handle file paths, naming rules, generation order, and platform differences in addition to the text itself. This repeated coordination work is the complex and error-prone part of localization.
+
+`basic_message` reduces that cost in three ways:
+
+1.  **Conventions reduce decision-making costs**. Shared message lifecycles, five-level semantic coordinates, code ranges, and parameter rules give developers and teams a consistent understanding of each message.
+2.  **Scripts remove repetitive work**. Generation tools handle the conversion between `MessageEnum`, ARB resources, and localized code, avoiding manual mapping while keeping changes verifiable and reproducible.
+3.  **An AI Skill assists the workflow**. When developers use an AI coding assistant, the Skill can help identify localization candidates, classify `st`/`cd`/`rs` messages, validate ICU parameters, choose the correct generation commands, and ask whether to generate after a batch of edits is complete.
+
+`basic_message` does not replace developers or translators. Instead, it gives repetitive, mechanical, and easily overlooked engineering work to established conventions and tools. This lets users focus on what matters: the business meaning and timing of a message, its parameters, and whether its expression is accurate and natural in each language.
+
 ## Quick Start
 
 ### Core Workflow
