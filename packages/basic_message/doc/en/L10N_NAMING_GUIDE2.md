@@ -1,7 +1,7 @@
 # L10N Naming & Workflow Convention v2
 
 ### 1. Core Philosophy: Pragmatism, Rigor, and Semantic Coordinates
-*   **Late-Binding**: Focus on logic implementation during the development phase, allowing for temporary placeholder text. Perform unified localization refactoring only after the feature is stable and before release.
+*   **Late-Binding**: Focus on logic during development. Human-readable text may temporarily use the development language. Once the feature stabilizes and before release, use the localization strategy to determine which text enters localized resources and which technical identifiers remain unchanged, then complete the required refactoring.
 *   **Lifecycle Partitioning**: Categorize text based on when it appears in the interaction flow (Static, Conditional, Result) to ensure logical archiving.
 *   **5-Level Semantic Coordinates**: Use a 5-segment path to precisely locate the "physical coordinate" and "business intent" of each text string.
 
@@ -45,11 +45,40 @@ When using `basic_message` for the first time, there is no need to migrate every
 
 3. **Then identify menus and other closed sets of options**
    Review menu items, display modes, status choices, and other text with a well-defined range of values. If these options are represented by hard-coded branches or repeated strings, consider modeling finite, stable sets as Dart `Enum`s.
-   `basic_message` supports Dart `Enum` values in ICU `select` parameters: callers can pass an enum instance directly, and `MessageEngine` or the generated registry resolves its `.name`. Prefer `Enum` for stable, closed sets; do not force dynamic or externally supplied open sets into enums.
+   `basic_message` supports Dart `Enum` values in ICU `select` parameters: callers can pass an enum instance directly, and `MessageEngine` or the generated registry resolves its `.name`. Prefer `Enum` for stable, closed sets; do not force dynamic or externally supplied open sets into enums. The `.name` value is a machine-readable enum identifier, not necessarily natural-language text for users. If an enum is displayed in the UI, provide its user-facing description through a message resource.
 
 This adoption order is intended to reduce the initial learning cost and does not change the lifecycle rules. Classify every message as `st`, `cd`, or `rs` according to when it occurs. Menu options must be classified by their lifecycle before deciding whether to use an `Enum`; a finite set is not automatically `st`.
 
 Start with a minimal working scope. After completing the cycle of defining messages, generating resources, generating the registry, and running static analysis, expand gradually to other pages and more complex `rs` messages.
+
+#### How This Convention Works with the Tiered Localization Strategy
+
+The sequence in this section—`st → cd → Enum / closed options`—is only a learning order for becoming familiar with the toolchain. It is not the localization priority for an entire product.
+
+When deciding what to translate first, follow the [Tiered Localization Strategy](L10N_STRATEGY_GUIDE.md): complete the skeleton and beginner workflow in the user's language, then address the advanced area according to value and risk.
+
+The two guides handle different jobs:
+
+| Guide | Primary question |
+| :--- | :--- |
+| Tiered Localization Strategy | Does this content need localization? Should it be handled now? May a technical name remain unchanged? |
+| This naming and workflow convention | Once localization is required, is the message `st`, `cd`, or `rs`? How should its key be named, generated, and maintained? |
+
+The resulting workflow is:
+
+```text
+Decide whether the content requires localization
+        ↓
+Tiered Localization Strategy
+        ↓
+Once included, classify, name, and generate the message
+        ↓
+Naming and Workflow Convention
+```
+
+A beginner workflow may contain `st`, `cd`, and `rs` messages. Do not postpone a validation message or result that the beginner needs merely because this introductory section presents `st` first.
+
+For example, the `temperature` API parameter name may remain unchanged in an advanced area. Its explanatory text, risk warning, and error feedback are user-readable messages and must enter localization resources. Classify each by its actual lifecycle as `st`, `cd`, or `rs`, then follow the five-level coordinate rules.
 
 ---
 

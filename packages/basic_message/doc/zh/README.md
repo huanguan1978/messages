@@ -221,6 +221,7 @@ dart run skills@ get --help
 
 - [详细设计指南](L10N_DESIGN_GUIDE.md)：深入了解架构设计、工程化流程和完整的代码示例
 - [统一命名规范](L10N_NAMING_GUIDE2.md)：统一的多语言 Key 命名规范，保证团队协作的一致性
+- [分层本地化策略](L10N_STRATEGY_GUIDE.md)：按用户角色规划本地化优先级，区分新手主线、专家负载与技术标识符
 
 ### 示例项目
 

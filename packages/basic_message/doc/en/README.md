@@ -214,5 +214,6 @@ The supported list may change between CLI versions. See the
 ## Resources
 
 *   **[Design Guide](L10N_DESIGN_GUIDE.md)**: Deep dive into architecture, workflows, and best practices.
-*   **[Naming Convention](L10N_NAMING_GUIDE2.md)**: Standardized four-level naming strategy for team consistency.
+*   **[Naming Convention](L10N_NAMING_GUIDE2.md)**: Five-level semantic naming and workflow convention for consistent team usage.
+*   **[Localization Strategy](L10N_STRATEGY_GUIDE.md)**: Prioritize localization by user role, separating the beginner workflow, advanced payload, and technical identifiers.
 *   **[Example Repository](https://github.com/huanguan1978/messages)**: A complete, ready-to-run boilerplate including `share_message`, `cli_example`, and `gui_example`.

@@ -1,7 +1,7 @@
 # L10N Naming & Workflow Convention v2
 
 ### 1. Core Philosophy: Pragmatism, Rigor, and Semantic Coordinates
-*   **Late-Binding**: Focus on logic implementation during the development phase, allowing for temporary placeholder text. Perform unified localization refactoring only after the feature is stable and before release.
+*   **Late-Binding**: Focus on logic during development. Human-readable text may temporarily use the development language. Once the feature stabilizes and before release, apply the localization strategy within the developer-authorized component scope, and complete the required resource refactoring.
 *   **Lifecycle Partitioning**: Categorize text based on when it appears in the interaction flow (Static, Conditional, Result) to ensure logical archiving.
 *   **5-Level Semantic Coordinates**: Use a 5-segment path to precisely locate the "physical coordinate" and "business intent" of each text string.
 
@@ -45,11 +45,22 @@ When using `basic_message` for the first time, there is no need to migrate every
 
 3. **Then identify menus and other closed sets of options**
    Review menu items, display modes, status choices, and other text with a well-defined range of values. If these options are represented by hard-coded branches or repeated strings, consider modeling finite, stable sets as Dart `Enum`s.
-   `basic_message` supports Dart `Enum` values in ICU `select` parameters: callers can pass an enum instance directly, and `MessageEngine` or the generated registry resolves its `.name`. Prefer `Enum` for stable, closed sets; do not force dynamic or externally supplied open sets into enums.
+   `basic_message` supports Dart `Enum` values in ICU `select` parameters: callers can pass an enum instance directly, and `MessageEngine` or the generated registry resolves its `.name`. Prefer `Enum` for stable, closed sets; do not force dynamic or externally supplied open sets into enums. The `.name` value is a machine-readable identifier, not necessarily natural-language display text. If an enum is shown in the UI, provide its user-facing description through a message resource.
 
 This adoption order is intended to reduce the initial learning cost and does not change the lifecycle rules. Classify every message as `st`, `cd`, or `rs` according to when it occurs. Menu options must be classified by their lifecycle before deciding whether to use an `Enum`; a finite set is not automatically `st`.
 
 Start with a minimal working scope. After completing the cycle of defining messages, generating resources, generating the registry, and running static analysis, expand gradually to other pages and more complex `rs` messages.
+
+#### Relationship to the Localization Strategy
+
+The `st → cd → Enum / closed options` sequence above is a toolchain learning order, not a product localization priority. Localization tiers and product scope must come from the developer.
+
+Within explicitly selected components:
+
+- `localization_strategy.md` distinguishes program identifiers from user-facing text and prevents unauthorized scope expansion.
+- This naming convention classifies included messages as `st`, `cd`, or `rs`, assigns five-level coordinates, and defines generation metadata.
+
+Do not infer beginner workflows, recommended actions, skeletons, or advanced areas from code. Do not recurse into an unselected child component. Once a user-facing message is explicitly within scope, apply the naming and workflow rules regardless of which localization tier the developer assigned to the component.
 
 ---
 

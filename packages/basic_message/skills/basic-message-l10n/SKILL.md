@@ -1,6 +1,6 @@
 ---
 name: basic-message-l10n
-description: "Use when a Dart or Flutter project depends on basic_message and an agent adds, changes, reviews, or generates MessageEnum definitions, ARB localization resources, message keys, ICU messages, or localization code."
+description: "Use when a Dart or Flutter project depends on basic_message and an agent processes explicitly selected components for localization, reviews localization scope, or adds, changes, reviews, or generates MessageEnum definitions, ARB resources, message keys, ICU messages, or localization code."
 ---
 
 # basic_message L10N v2
@@ -9,10 +9,21 @@ Follow this workflow when working on a project that depends on `basic_message`.
 
 ## Authoritative specification
 
-Before editing or adding localization resources, read the authoritative specification bundled within this skill:
+Before editing or adding localization resources, read both authoritative references bundled within this skill:
+- [references/localization_strategy.md](references/localization_strategy.md)
 - [references/naming_guide.md](references/naming_guide.md)
 
-Existing message definitions in user projects may predate v2 and must not override the guide.
+Existing message definitions in user projects may predate v2 and must not override these references.
+
+## Explicit scope and ownership
+
+- Do not make product-level localization tiering decisions.
+- Do not infer beginner workflows, recommended actions, skeletons, or advanced areas from file names, routes, UI styling, comments, defaults, or component structure.
+- Work only on components explicitly selected by the developer.
+- A selected parent component does not authorize recursive work on nested or reused child components. Process each child component only when it is separately selected.
+- If no explicit component scope is available and the scope affects localization behavior, ask the developer to identify the component or components before editing.
+
+Once the developer specifies the scope, the agent is responsible for applying the localization, naming, generation, and validation rules within that scope.
 
 ## Key Definition Rules
 
@@ -62,24 +73,27 @@ Representative ICU patterns:
 
 For the `select` example, callers may pass a Dart enum instance whose `name` is `home`, `settings`, or another supported branch. Do not force open-ended or externally supplied option sets into enums.
 
-## Recommended adoption order
+## Toolchain onboarding order
 
-When onboarding a project incrementally, choose a small isolated page or feature and complete the full generation workflow:
+When onboarding a new project, this order helps a developer learn the toolchain without migrating everything at once:
 
 1. Start with static presentation text (`st`), such as titles, buttons, labels, and explanatory text.
 2. Continue with pre-execution validation and guard text (`cd`), introducing simple ICU parameters when needed.
 3. Then identify menu items and other finite, stable option sets. Prefer Dart `Enum` values for closed sets, especially when used with ICU `select`.
 
-This is an adoption order, not a lifecycle override. Always classify each message by when it occurs. A finite option set or enum is not automatically `st`, and dynamic or externally supplied open sets should not be forced into enums.
+This is a toolchain onboarding order, not a product localization priority. It does not authorize choosing the pages, components, beginner path, or advanced area. The developer must provide that scope. Always classify each message by when it occurs. A finite option set or enum is not automatically `st`, and dynamic or externally supplied open sets should not be forced into enums.
 
 ## Workflow
 
-1. Read [references/naming_guide.md](references/naming_guide.md) and classify the message lifecycle (`st`/`cd`/`rs`).
-2. Search nearby definitions in the target project for coordinate consistency, established file paths, and code availability. Do not copy a legacy format merely because it appears in older definitions, and do not migrate unrelated existing messages unless requested.
-3. Define or update the `MessageEnum` member with all required metadata (`code`, `msg`, `desc`, `param`).
-4. Verify that every `msg` placeholder has a representative `param` value and that ICU `select`/`plural` syntax contains `other`.
-5. Do not automatically generate after every individual message edit. Users commonly batch several localization changes before generation. If generation was not explicitly requested and more edits may follow, ask whether to generate now.
-6. When the user requests generation or confirms that the batch is ready:
+1. Confirm the explicit component scope. If it is missing or ambiguous, ask the developer to provide it.
+2. Exclude nested and reused child components unless the developer separately selected them.
+3. Read [references/localization_strategy.md](references/localization_strategy.md). Distinguish technical identifiers from user-facing text without making localization tiering decisions.
+4. Read [references/naming_guide.md](references/naming_guide.md) and classify each included message by lifecycle (`st`/`cd`/`rs`).
+5. Search nearby definitions in the target project for coordinate consistency, established file paths, and code availability. Do not copy a legacy format merely because it appears in older definitions, and do not migrate unrelated existing messages unless requested.
+6. Define or update the `MessageEnum` member with all required metadata (`code`, `msg`, `desc`, `param`).
+7. Verify that every `msg` placeholder has a representative `param` value and that ICU `select`/`plural` syntax contains `other`.
+8. Do not automatically generate after every individual message edit. Users commonly batch several localization changes before generation. If generation was not explicitly requested and more edits may follow, ask whether to generate now.
+9. When the user requests generation or confirms that the batch is ready:
    - Reuse the project's established input and output paths.
    - `gen_msg_resource` requires both `-i` and `-o`; do not invoke it without them:
      ```bash
@@ -88,20 +102,20 @@ This is an adoption order, not a lifecycle override. Always classify each messag
        -o <generated-resource-file>
      ```
    - Continue with the target project's normal ARB extraction or synchronization step.
-7. Before using ARB files to generate localized Dart resources, inspect every target ARB and ensure its root metadata contains a valid `@@locale`:
+10. Before using ARB files to generate localized Dart resources, inspect every target ARB and ensure its root metadata contains a valid `@@locale`:
    ```json
    {
      "@@locale": "en"
    }
    ```
    Infer the locale from an unambiguous filename or existing project configuration. Add a missing value when it is certain; ask the user if the locale cannot be determined safely.
-8. Continue according to the project type:
+11. Continue according to the project type:
    - For Dart CLI projects, follow the project's `intl_translation` ARB-to-Dart generation workflow.
    - For Flutter projects, run `flutter gen-l10n` first. Run `gen_msg_registry` only when the project has `l10n.yaml` and generated `AppLocalizations` output:
      ```bash
      dart run basic_message:gen_msg_registry
      ```
-9. Review generated diffs and do not hand-edit generated `*.g.dart` files. Run formatting, focused tests where available, and static analysis:
+12. Review generated diffs and do not hand-edit generated `*.g.dart` files. Run formatting, focused tests where available, and static analysis:
    ```bash
    dart analyze
    ```
@@ -110,6 +124,11 @@ This is an adoption order, not a lifecycle override. Always classify each messag
 
 Before finishing, verify:
 
+- The work stays within explicitly selected components.
+- No unselected nested or reused child component was modified.
+- No beginner workflow, recommended action, skeleton, or advanced area was inferred by the agent.
+- Human-readable text and technical identifiers are kept distinct within the authorized scope.
+- User-facing explanations, safety warnings, and recovery instructions were not retained merely because they accompany a technical identifier.
 - The key has the required five-level coordinate structure.
 - The code is unique and belongs to the correct `20xxx`, `21xxx`, or `22xxx` range.
 - The enum member name and any required original-key documentation match the key.
@@ -119,4 +138,4 @@ Before finishing, verify:
 - Only the generation steps required by the CLI or Flutter project were run.
 - Generated files reflect the intended message batch and contain no unintended rewrites.
 
-Late-Binding is permitted: temporary hardcoded text may be used during active prototyping, but must be replaced with v2-compliant `MessageEnum` definitions before release.
+Late-Binding is permitted during active prototyping. Before release, replace temporary user-facing strings in the explicitly authorized component scope with v2-compliant localization resources. Intentionally retained technical identifiers may remain unchanged.

@@ -1,3 +1,10 @@
+## 1.0.7
+
+- Add the bilingual Tiered Localization Strategy guides for role-based localization scope, skeleton/payload separation, progressive workload, and technical-identifier retention.
+- Clarify the complementary responsibilities of the Localization Strategy and the L10N Naming & Workflow Convention.
+- Update the AI Agent Skill to require developer-provided component scope, avoid inferred product tiers, and exclude unselected nested or reused components.
+- Keep program identifiers and user-facing explanations distinct during Agent-assisted localization.
+
 ## 1.0.6
 
 - Standardize the AI Agent Skill layout under `skills/basic-message-l10n` and make its reference content self-contained.
