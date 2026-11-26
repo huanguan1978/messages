@@ -67,24 +67,29 @@ void main(List<String> arguments) {
 
     // Move null-safety check OUTSIDE the Intl.message call
     for (final p in uniqueParams) {
+      final rawDefault = m.defaultArgs[p]?.toString() ?? '';
       buffer.writeln(
-        "    $p = ${m.defaultArgs[p] != null ? "$p ?? '${m.defaultArgs[p]}'" : "$p ?? ''"};",
+        "    $p = ${m.defaultArgs[p] != null ? "$p ?? '${dartEscape(rawDefault)}'" : "$p ?? ''"};",
       );
     }
 
     buffer.writeln("    return Intl.message(");
-    buffer.writeln("      '${m.defaultValue}',");
+    buffer.writeln("      '${dartEscape(m.defaultValue)}',");
     // Use ClassName_MethodName to satisfy the intl tool naming requirement
     buffer.writeln("      name: '$sanitizeKey',");
 
     if (uniqueParams.isNotEmpty) {
+      final exampleMap = uniqueParams
+          .map((p) {
+            final raw = m.defaultArgs[p]?.toString() ?? '';
+            return "'$p': '${dartEscape(raw)}'";
+          })
+          .join(', ');
       buffer.writeln("      args: [${uniqueParams.join(', ')}],");
-      buffer.writeln(
-        "      examples: const {${uniqueParams.map((p) => "'$p': '${m.defaultArgs[p] ?? ''}'").join(', ')}},",
-      );
+      buffer.writeln("      examples: const {$exampleMap},");
     }
 
-    if (m.desc.isNotEmpty) buffer.writeln("      desc: '${m.desc}',");
+    if (m.desc.isNotEmpty) buffer.writeln("      desc: '${dartEscape(m.desc)}',");
 
     buffer.writeln("    );");
     buffer.writeln("  }");
@@ -109,6 +114,18 @@ class MessageDefinition {
     this.defaultArgs,
     this.desc,
   );
+}
+
+/// Escapes a string value so it is safe to embed inside a single-quoted Dart
+/// string literal (the generator writes evaluated values into generated code,
+/// so newlines, quotes, backslashes and dollar signs must be re-escaped).
+String dartEscape(String s) {
+  return s
+      .replaceAll(r'\', r'\\')
+      .replaceAll("'", r"\'")
+      .replaceAll('\n', r'\n')
+      .replaceAll('\r', r'\r')
+      .replaceAll('\$', r'\$');
 }
 
 class _EnumVisitor extends RecursiveAstVisitor<void> {

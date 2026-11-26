@@ -1,3 +1,7 @@
+## 1.0.8
+
+- Escape generated Dart string literals to support newlines, quotes, backslashes, and dollar signs in message values, descriptions, and default arguments.
+
 ## 1.0.7
 
 - Add the bilingual Tiered Localization Strategy guides for role-based localization scope, skeleton/payload separation, progressive workload, and technical-identifier retention.
