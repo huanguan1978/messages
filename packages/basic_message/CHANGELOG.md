@@ -1,3 +1,9 @@
+## 1.0.9
+
+- Add "ICU Expression Isolation" rule: select/plural must occupy the entire msg; split into label + plain-parameter body messages otherwise
+- Add WRONG/RIGHT definition examples and workflow/completion checks
+- Note that dartEscape-style escaping does not affect ICU parsing
+
 ## 1.0.8
 
 - Escape generated Dart string literals to support newlines, quotes, backslashes, and dollar signs in message values, descriptions, and default arguments.

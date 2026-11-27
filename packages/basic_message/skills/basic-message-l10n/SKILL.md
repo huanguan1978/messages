@@ -44,6 +44,7 @@ Once the developer specifies the scope, the agent is responsible for applying th
 - **Metadata**: Provide complete `desc` (display context, parameters) and valid ICU formatting.
 - **Parameter Completeness**: Every placeholder used by `msg` must have a matching representative value in `param`. `gen_msg_resource` discovers generated function parameters from `param`, not from placeholders alone.
 - **ICU Syntax**: `select` and `plural` messages must include an `other` branch. Use a stable string or enum member name that matches every declared `select` branch.
+- **ICU Expression Isolation (pipeline constraint)**: An ICU `select` or `plural` expression must be the entire `msg` value — no leading or trailing plain text, no surrounding words. `intl_translation` 0.21.0's PEG parser only takes the ICU path when the message starts with the expression; otherwise it falls back to `nonIcuMessageParse`, misreads `{words}` inside branch values as placeholder variables, and generation fails with `Cannot find parameter named 'XXX'`. If a sentence needs both fixed text and an ICU expression, split it into two messages: a pure select/plural label message plus a plain-parameter body message that receives the label's evaluated value. Escaping (`dartEscape` etc.) does not help — it operates on the Dart string literal, not on how the ICU parser reads the resolved value.
 - **Enum Parameters**: For ICU `select` parameters backed by a Dart `Enum`, callers can pass the enum instance directly. `MessageEngine` and generated registries natively resolve `.name`.
 
 ## Minimal definition pattern
@@ -73,6 +74,33 @@ Representative ICU patterns:
 
 For the `select` example, callers may pass a Dart enum instance whose `name` is `home`, `settings`, or another supported branch. Do not force open-ended or externally supplied option sets into enums.
 
+When fixed text must accompany an ICU expression, use the two-message pattern (label message + body message), never wrap the expression in surrounding text:
+
+```dart
+// WRONG: leading text breaks the ICU parse path in intl_translation 0.21.0
+entityDeleteTitle(
+  20128,
+  'st_entity_list_row_deleteTitle',
+  'Delete {type, select, file{File} preset{Preset} other{Item}}',
+  param: {'type': 'file'},
+)
+
+// RIGHT: pure select label message ...
+entityTypeLabel(
+  20185,
+  'st_entity_list_row_typeLabel',
+  '{type, select, file{File} preset{Preset} other{Item}}',
+  param: {'type': 'file'},
+)
+// ... plus a plain-parameter body that receives the evaluated label
+entityDeleteTitle(
+  20128,
+  'st_entity_list_row_deleteTitle',
+  'Delete {type}',
+  param: {'type': 'File'},
+)
+```
+
 ## Toolchain onboarding order
 
 When onboarding a new project, this order helps a developer learn the toolchain without migrating everything at once:
@@ -91,7 +119,7 @@ This is a toolchain onboarding order, not a product localization priority. It do
 4. Read [references/naming_guide.md](references/naming_guide.md) and classify each included message by lifecycle (`st`/`cd`/`rs`).
 5. Search nearby definitions in the target project for coordinate consistency, established file paths, and code availability. Do not copy a legacy format merely because it appears in older definitions, and do not migrate unrelated existing messages unless requested.
 6. Define or update the `MessageEnum` member with all required metadata (`code`, `msg`, `desc`, `param`).
-7. Verify that every `msg` placeholder has a representative `param` value and that ICU `select`/`plural` syntax contains `other`.
+7. Verify that every `msg` placeholder has a representative `param` value, that ICU `select`/`plural` syntax contains `other`, and that any `select`/`plural` expression occupies the entire `msg` with no surrounding text (see **ICU Expression Isolation** above).
 8. Do not automatically generate after every individual message edit. Users commonly batch several localization changes before generation. If generation was not explicitly requested and more edits may follow, ask whether to generate now.
 9. When the user requests generation or confirms that the batch is ready:
    - Reuse the project's established input and output paths.
@@ -134,6 +162,7 @@ Before finishing, verify:
 - The enum member name and any required original-key documentation match the key.
 - Every ICU placeholder appears in `param`, with a representative value suitable for extraction.
 - Every ICU `select`/`plural` includes `other`.
+- Every ICU `select`/`plural` is the entire `msg` value, with fixed wording split into a separate plain-parameter message when needed.
 - Every generated ARB has an unambiguous, valid `@@locale`.
 - Only the generation steps required by the CLI or Flutter project were run.
 - Generated files reflect the intended message batch and contain no unintended rewrites.
