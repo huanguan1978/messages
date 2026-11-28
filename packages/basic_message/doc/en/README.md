@@ -105,6 +105,9 @@ Use the provided CLI tools to bridge your enums and the standard `intl` pipeline
 2.  `dart run intl_translation:extract_to_arb` — Extracts the ARB files for your translation team.
 3.  Translate the ARB files, then run `generate_from_arb` to create the localized Dart code.
 
+> To hand step 3 entirely to AI, read the [AI Translation Workflow Guide](AI_TRANSLATION_GUIDE.md).
+> Prerequisites: (1) you have completed the integration steps in this section — messages are defined, the automated generation flow for translation files works, and the app displays text by active locale; (2) the English baseline `intl_en.arb` is stable and no longer changing — starting translation on an unstable baseline means every later change may trigger retranslation.
+
 *(For full automation, see our [Design Guide](L10N_DESIGN_GUIDE.md) and the [Example Repository](https://github.com/huanguan1978/messages)).*
 
 
@@ -216,4 +219,5 @@ The supported list may change between CLI versions. See the
 *   **[Design Guide](L10N_DESIGN_GUIDE.md)**: Deep dive into architecture, workflows, and best practices.
 *   **[Naming Convention](L10N_NAMING_GUIDE2.md)**: Five-level semantic naming and workflow convention for consistent team usage.
 *   **[Localization Strategy](L10N_STRATEGY_GUIDE.md)**: Prioritize localization by user role, separating the beginner workflow, advanced payload, and technical identifiers.
+*   **[AI Translation Workflow Guide](AI_TRANSLATION_GUIDE.md)**: After completing the integration steps above and once the English baseline `intl_en.arb` is stable, hand the full translation of a language to AI using this protocol (AI groups messages globally and sets the glossary first, then translates batch by batch with automated checks per batch). Includes the companion tool `gen_msg_analyzer` and copy-paste AI session templates.
 *   **[Example Repository](https://github.com/huanguan1978/messages)**: A complete, ready-to-run boilerplate including `share_message`, `cli_example`, and `gui_example`.

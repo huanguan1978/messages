@@ -115,6 +115,9 @@ Use the provided CLI tools to bridge your enums and the standard `intl` pipeline
 2.  `dart run intl_translation:extract_to_arb` — Extracts the ARB files for your translation team.
 3.  Translate the ARB files, then run `generate_from_arb` to create the localized Dart code.
 
+> To hand step 3 entirely to AI, read the [AI Translation Workflow Guide](doc/en/AI_TRANSLATION_GUIDE.md).
+> Prerequisites: (1) the integration steps in this section are complete — messages are defined, the automated generation flow for translation files works, and the app displays text by active locale; (2) the English baseline `intl_en.arb` is stable and no longer changing — starting on an unstable baseline means every later change may trigger retranslation.
+
 *(For full automation, see our [Design Guide](doc/en/L10N_DESIGN_GUIDE.md) and the [Example Repository](https://github.com/huanguan1978/messages)).*
 
 
@@ -275,4 +278,5 @@ project, which focuses on offline file security and data sovereignty.
 *   **[Design Guide](doc/en/L10N_DESIGN_GUIDE.md)**: Architecture, implementation details, and generation workflows.
 *   **[Localization Strategy](doc/en/L10N_STRATEGY_GUIDE.md)**: Localization tiers, user workflows, skeleton/payload boundaries, and technical identifiers.
 *   **[Naming & Workflow Convention](doc/en/L10N_NAMING_GUIDE2.md)**: Five-level keys, lifecycle classification, metadata, and message-generation rules.
+*   **[AI Translation Workflow Guide](doc/en/AI_TRANSLATION_GUIDE.md)**: After completing the integration steps above and once the English baseline `intl_en.arb` is stable, hand the full translation of a language to AI using this protocol (AI groups messages globally and sets the glossary first, then translates batch by batch with automated checks per batch). Includes the companion tool `gen_msg_analyzer` and copy-paste AI session templates.
 *   **[Example Repository](https://github.com/huanguan1978/messages)**: A complete, ready-to-run boilerplate including `share_message`, `cli_example`, and `gui_example`.

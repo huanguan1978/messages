@@ -1,6 +1,6 @@
 ---
 name: basic-message-l10n
-description: "Use when a Dart or Flutter project depends on basic_message and an agent processes explicitly selected components for localization, reviews localization scope, or adds, changes, reviews, or generates MessageEnum definitions, ARB resources, message keys, ICU messages, or localization code."
+description: "Use when a Dart or Flutter project depends on basic_message and an agent processes explicitly selected components for localization, reviews localization scope, or adds, changes, reviews, or generates MessageEnum definitions, ARB resources, message keys, ICU messages, or localization code. Also use when the developer asks to translate a stable ARB baseline into other languages with AI."
 ---
 
 # basic_message L10N v2
@@ -14,6 +14,19 @@ Before editing or adding localization resources, read both authoritative referen
 - [references/naming_guide.md](references/naming_guide.md)
 
 Existing message definitions in user projects may predate v2 and must not override these references.
+
+A third reference is phase-gated and only applies to translation work:
+- [references/ai_translation_workflow.md](references/ai_translation_workflow.md) — read it only when the task is to translate an already stable ARB baseline into one or more target languages (see the next section).
+
+## Translation phase (full-language translation after integration)
+
+The rules above govern how messages enter the system (the definition phase). They do not cover translating a finished baseline. When the project is fully integrated and the English baseline ARB is stable, a full-language translation follows a separate protocol:
+
+- Read [references/ai_translation_workflow.md](references/ai_translation_workflow.md) before starting any translation work, and follow it end to end.
+- Do not start translation while the baseline ARB is still changing. Incremental translation only covers newly added messages; it does not cover already-translated entries whose English text changed.
+- The guide's division of labor applies: `gen_msg_analyzer` produces the context pack linking each message to its call sites, the agent performs semantic grouping, the glossary, and batch translation, and the developer approves grouping and glossary decisions through multiple-choice prompts.
+- Zero-call-site entries (`callSites: []` in `messages_analyzer.g.json`) from the `-i` message definition file are skipped by default (`"status": "skipped"` in `translation_plan.json`, keeping English baseline text) and require no translation unless the developer explicitly designates specific indirect-consumption entries during grouping approval.
+- If definition-phase edits (new or changed `MessageEnum` members) become necessary during active translation, report this to the developer instead of silently continuing: such edits can invalidate already-translated batches.
 
 ## Explicit scope and ownership
 
@@ -108,6 +121,7 @@ When onboarding a new project, this order helps a developer learn the toolchain 
 1. Start with static presentation text (`st`), such as titles, buttons, labels, and explanatory text.
 2. Continue with pre-execution validation and guard text (`cd`), introducing simple ICU parameters when needed.
 3. Then identify menu items and other finite, stable option sets. Prefer Dart `Enum` values for closed sets, especially when used with ICU `select`.
+4. Only after the baseline ARB is stable, hand full-language translation to AI following [references/ai_translation_workflow.md](references/ai_translation_workflow.md).
 
 This is a toolchain onboarding order, not a product localization priority. It does not authorize choosing the pages, components, beginner path, or advanced area. The developer must provide that scope. Always classify each message by when it occurs. A finite option set or enum is not automatically `st`, and dynamic or externally supplied open sets should not be forced into enums.
 

@@ -120,6 +120,9 @@ enum AppMessage implements MessageEnum {
 3. 翻译人员基于 ARB 文件进行多语言翻译
 4. 使用 `intl_translation:generate_from_arb` 生成多语言 Dart 代码
 
+> 第 3 步若要交给 AI 完成整盘翻译，请阅读 [AI 多语言翻译作业指引](AI_TRANSLATION_GUIDE.md)。
+> 适用前提：① 已按本节步骤完成接入——消息都定义好了、翻译文件的自动生成流程跑通了、程序能按语言切换显示文案了；② 英文底稿 `intl_en.arb` 已稳定不再改动——底稿没稳就开翻，之后每轮改动都可能引起重译。
+
 **自动化支持：** 完整的自动化流程和脚本示例，请参考[详细设计指南](L10N_DESIGN_GUIDE.md)。你也可以使用 [ft:FileTools](https://pub.dev/packages/filetools) 结合示例仓库的配置，实现完全自动化的代码生成工作流。
 
 ### 4. CLI 端集成
@@ -222,6 +225,7 @@ dart run skills@ get --help
 - [详细设计指南](L10N_DESIGN_GUIDE.md)：深入了解架构设计、工程化流程和完整的代码示例
 - [统一命名规范](L10N_NAMING_GUIDE2.md)：统一的多语言 Key 命名规范，保证团队协作的一致性
 - [分层本地化策略](L10N_STRATEGY_GUIDE.md)：按用户角色规划本地化优先级，区分新手主线、专家负载与技术标识符
+- [AI 多语言翻译作业指引](AI_TRANSLATION_GUIDE.md)：完成上述接入步骤、且英文底稿 `intl_en.arb` 稳定后，用 AI 完成整盘语言翻译的作业协议（AI 先全局归类分批、定术语表，再逐批翻译并逐批自动检查），含配套工具 `gen_msg_analyzer` 用法与可直接复制的 AI 会话模板
 
 ### 示例项目
 

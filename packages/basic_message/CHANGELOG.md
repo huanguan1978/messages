@@ -1,3 +1,8 @@
+## 1.1.0
+
+- New CLI tool `gen_msg_analyzer`: builds a per-message translation context pack (call sites with code context) from a project's message definitions, to support AI-driven translation.
+- Extend the `basic-message-l10n` skill with the AI translation workflow guide and translation-phase rules; see `doc/zh/AI_TRANSLATION_GUIDE.md` / `doc/en/AI_TRANSLATION_GUIDE.md`.
+
 ## 1.0.9
 
 - Add "ICU Expression Isolation" rule: select/plural must occupy the entire msg; split into label + plain-parameter body messages otherwise
